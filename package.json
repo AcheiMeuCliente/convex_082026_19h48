@@ -11,7 +11,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "deploy": "netlify deploy --prod",
-    "build:full": "npx convex deploy && npm run build"
+    "build:full": "npx convex deploy amicable-lobster-244 && npm run build"
   },
   "dependencies": {
     "@convex-dev/auth": "^0.0.80",
