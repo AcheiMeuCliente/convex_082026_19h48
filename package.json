@@ -10,7 +10,8 @@
     "lint": "tsc -p convex -noEmit --pretty false && tsc -p . -noEmit --pretty false && convex dev --once && vite build",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "deploy": "netlify deploy --prod"
+    "deploy": "netlify deploy --prod",
+    "build:full": "npx convex deploy && npm run build"
   },
   "dependencies": {
     "@convex-dev/auth": "^0.0.80",
