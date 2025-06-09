@@ -3,60 +3,41 @@ import { v } from "convex/values";
 import { authTables } from "@convex-dev/auth/server";
 
 const applicationTables = {
-  // Tabela principal de empresas baseada na estrutura CSV
+  // Tabela principal de empresas baseada na estrutura CSV oficial
   companies: defineTable({
-    // Identificação
-    cnpj: v.string(),
-    cnae_principal_codigo: v.string(),
-    codigo_cnae_fiscal: v.optional(v.string()),
-    cnae_principal_nome: v.string(),
-    cnae_secundario_codigo: v.optional(v.string()),
-    cnae_secundario_nome: v.optional(v.string()),
-    razao_social: v.string(),
-    nome_fantasia: v.optional(v.string()),
-    
-    // Contatos
-    telefone_1: v.optional(v.string()),
-    telefone_2: v.optional(v.string()),
-    telefone_3: v.optional(v.string()),
-    ddd_telefone_1: v.optional(v.string()),
-    email: v.optional(v.string()),
-    website: v.optional(v.string()),
-    
-    // Localização
-    bairro: v.optional(v.string()),
-    cep: v.optional(v.string()),
-    logradouro: v.optional(v.string()),
-    municipio: v.string(),
-    uf: v.optional(v.string()),
-    estado: v.string(),
-    endereco_mapa: v.optional(v.string()),
-    maps: v.optional(v.string()),
-    
-    // Características empresariais
-    matriz_filial: v.optional(v.string()),
-    porte: v.optional(v.string()),
-    porte_empresa: v.optional(v.string()),
-    capital_social: v.optional(v.number()),
-    mei: v.boolean(),
-    simples: v.boolean(),
-    opcao_pelo_simples: v.optional(v.boolean()),
-    inicio_atividade: v.optional(v.string()),
-    data_inicio_atividade: v.optional(v.string()),
-    receita_federal: v.optional(v.string()),
-    natureza_juridica: v.optional(v.string()),
-    
-    // Contatos adicionais
-    email_contabilidade: v.optional(v.string()),
-    tem_email: v.boolean(),
-    tem_telefone: v.boolean(),
-    whatsapp_1: v.optional(v.string()),
-    whatsapp_2: v.optional(v.string()),
-    whatsapp_3: v.optional(v.string()),
-    dominio_corporativo: v.optional(v.string()),
-    site: v.optional(v.string()),
-    
-    // Metadados
+    cnpj: v.string(), // 1
+    cnae_principal_codigo: v.string(), // 2
+    cnae_principal_nome: v.string(), // 3
+    cnae_secundario_codigo: v.optional(v.string()), // 4
+    cnae_secundario_nome: v.optional(v.string()), // 5
+    razao_social: v.string(), // 6
+    nome_fantasia: v.optional(v.string()), // 7
+    telefone_1: v.optional(v.string()), // 8
+    telefone_2: v.optional(v.string()), // 9
+    telefone_3: v.optional(v.string()), // 10
+    email: v.optional(v.string()), // 11
+    bairro: v.optional(v.string()), // 12
+    cep: v.optional(v.string()), // 13
+    municipio: v.string(), // 14
+    estado: v.string(), // 15
+    endereco_mapa: v.optional(v.string()), // 16
+    maps: v.optional(v.string()), // 17
+    matriz_filial: v.optional(v.string()), // 18
+    porte: v.optional(v.string()), // 19
+    capital_social: v.optional(v.number()), // 20
+    mei: v.optional(v.boolean()), // 21
+    simples: v.optional(v.boolean()), // 22
+    inicio_atividade: v.optional(v.string()), // 23
+    receita_federal: v.optional(v.string()), // 24
+    natureza_juridica: v.optional(v.string()), // 25
+    email_contabilidade: v.optional(v.string()), // 26
+    tem_email: v.optional(v.boolean()), // 27
+    tem_telefone: v.optional(v.boolean()), // 28
+    whatsapp_1: v.optional(v.string()), // 29
+    whatsapp_2: v.optional(v.string()), // 30
+    whatsapp_3: v.optional(v.string()), // 31
+    dominio_corporativo: v.optional(v.string()), // 32
+    site: v.optional(v.string()), // 33
     importado_em: v.optional(v.number()),
     atualizado_em: v.optional(v.number()),
   })
@@ -64,23 +45,7 @@ const applicationTables = {
     .index("by_razao_social", ["razao_social"])
     .index("by_cnae_principal", ["cnae_principal_codigo"])
     .index("by_municipio", ["municipio"])
-    .index("by_estado", ["estado"])
-    .index("by_porte", ["porte"])
-    .index("by_cnae_estado", ["cnae_principal_codigo", "estado"])
-    .index("by_mei", ["mei"])
-    .index("by_simples", ["simples"])
-    .index("by_tem_email", ["tem_email"])
-    .index("by_tem_telefone", ["tem_telefone"])
-    .index("by_matriz_filial", ["matriz_filial"])
-    .index("by_natureza_juridica", ["natureza_juridica"])
-    .index("by_porte_empresa", ["porte_empresa"])
-    .index("by_bairro", ["bairro"])
-    .index("by_cep", ["cep"])
-    .index("by_dominio_corporativo", ["dominio_corporativo"])
-    .searchIndex("search_companies", {
-      searchField: "razao_social",
-      filterFields: ["estado", "porte", "cnae_principal_codigo", "municipio"],
-    }),
+    .index("by_estado", ["estado"]),
 
   // Metadados dos CNAEs
   cnae_metadata: defineTable({
@@ -97,6 +62,12 @@ const applicationTables = {
     regiao: v.string(),
     total_empresas: v.optional(v.number()),
   }).index("by_codigo", ["codigo"]),
+
+  // Tabela de usuários
+  users: defineTable({
+    name: v.string(),
+    isAdmin: v.boolean(),
+  }),
 };
 
 export default defineSchema({

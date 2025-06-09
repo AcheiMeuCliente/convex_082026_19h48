@@ -7,6 +7,7 @@ import { BusinessDashboard } from "./components/BusinessDashboard";
 import { AnalyticsDashboard } from "./components/AnalyticsDashboard";
 import { DashboardNavigation } from "./components/DashboardNavigation";
 import { Toaster } from "sonner";
+import { AdminPanel } from "./components/AdminPanel";
 
 export default function App() {
   return (
@@ -25,7 +26,7 @@ export default function App() {
 
 function Content() {
   const loggedInUser = useQuery(api.auth.loggedInUser);
-  const [currentView, setCurrentView] = useState<"business" | "analytics">("analytics");
+  const [currentView, setCurrentView] = useState<"business" | "analytics" | "admin">("analytics");
 
   if (loggedInUser === undefined) {
     return (
@@ -42,7 +43,20 @@ function Content() {
           currentView={currentView} 
           onViewChange={setCurrentView} 
         />
-        {currentView === "analytics" ? <AnalyticsDashboard /> : <BusinessDashboard />}
+        {currentView === "analytics" ? <AnalyticsDashboard /> : null}
+        {currentView === "business" ? <BusinessDashboard /> : null}
+        {currentView === "admin" && loggedInUser?.isAdmin ? <AdminPanel /> : null}
+        {currentView === "admin" && !loggedInUser?.isAdmin ? (
+          <div className="text-red-600 font-bold">Acesso negado: apenas administradores.</div>
+        ) : null}
+        {loggedInUser?.isAdmin && (
+          <button
+            className="fixed bottom-8 right-8 px-4 py-2 bg-blue-700 text-white rounded shadow-lg z-50"
+            onClick={() => setCurrentView(currentView === "admin" ? "analytics" : "admin")}
+          >
+            {currentView === "admin" ? "Voltar ao Dashboard" : "Painel Admin"}
+          </button>
+        )}
       </Authenticated>
       
       <Unauthenticated>

@@ -28,11 +28,6 @@ const PORTES = [
   "GRANDE EMPRESA"
 ];
 
-const MATRIZ_FILIAL_OPTIONS = [
-  "MATRIZ",
-  "FILIAL"
-];
-
 export function FiltersSidebar({ 
   isOpen, 
   onClose, 

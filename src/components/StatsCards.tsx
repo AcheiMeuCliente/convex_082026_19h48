@@ -23,10 +23,6 @@ export function StatsCards({ stats }: StatsCardsProps) {
     .sort(([, a], [, b]) => b - a)
     .slice(0, 5);
 
-  const topCnaes = Object.entries(stats.top_cnaes)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 5);
-
   const formatPercentage = (value: number, total: number) => {
     return total > 0 ? ((value / total) * 100).toFixed(1) : "0.0";
   };

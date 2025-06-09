@@ -71,79 +71,6 @@ export function BusinessDashboard() {
     setCurrentPage(0);
   };
 
-  const handleExportData = () => {
-    if (!companiesResult?.page) return;
-    
-    // Create CSV content
-    const headers = [
-      "Company Name",
-      "Trade Name", 
-      "Primary Activity",
-      "Secondary Activity",
-      "Capital",
-      "Email",
-      "City",
-      "Neighborhood",
-      "Address",
-      "Tax ID",
-      "Website",
-      "Phone 1",
-      "Phone 2", 
-      "Phone 3",
-      "WhatsApp 1",
-      "WhatsApp 2",
-      "WhatsApp 3",
-      "State",
-      "ZIP",
-      "Size",
-      "MEI",
-      "Simples",
-      "Federal Revenue"
-    ];
-    
-    const csvContent = [
-      headers.join(","),
-      ...companiesResult.page.map(company => [
-        `"${company.razao_social}"`,
-        `"${company.nome_fantasia || ""}"`,
-        `"${company.cnae_principal_nome}"`,
-        `"${company.cnae_secundario_nome || ""}"`,
-        company.capital_social || 0,
-        `"${company.email || ""}"`,
-        `"${company.municipio}"`,
-        `"${company.bairro || ""}"`,
-        `"${company.endereco_mapa || ""}"`,
-        `"${company.cnpj}"`,
-        `"${company.site || ""}"`,
-        `"${company.telefone_1 || ""}"`,
-        `"${company.telefone_2 || ""}"`,
-        `"${company.telefone_3 || ""}"`,
-        `"${company.whatsapp_1 || ""}"`,
-        `"${company.whatsapp_2 || ""}"`,
-        `"${company.whatsapp_3 || ""}"`,
-        `"${company.estado}"`,
-        `"${company.cep || ""}"`,
-        `"${company.porte || ""}"`,
-        company.mei,
-        company.simples,
-        `"${company.receita_federal || ""}"`
-      ].join(","))
-    ].join("\n");
-    
-    // Download CSV
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", `companies_export_${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = "hidden";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    toast.success("Data exported successfully!");
-  };
-
   if (stats === undefined || companiesResult === undefined) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
@@ -238,7 +165,7 @@ export function BusinessDashboard() {
           
           {hasNoData && (
             <button
-              onClick={handleSeedData}
+              onClick={() => { void handleSeedData(); }}
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Load Example Data
